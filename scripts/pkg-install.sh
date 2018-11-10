@@ -25,6 +25,8 @@ customization=(
 	'archlinux-wallpaper'
 	'arc-gtk-theme'
 	'numix-gtk-theme'
+	'adobe-source-code-pro-fonts'
+	'adobe-source-sans-pro-fonts'
 )
 
 cli_tools=(
