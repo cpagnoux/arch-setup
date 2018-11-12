@@ -25,6 +25,7 @@ customization=(
 	'archlinux-wallpaper'
 	'arc-gtk-theme'
 	'numix-gtk-theme'
+	'elementary-icon-theme'
 	'adobe-source-code-pro-fonts'
 	'adobe-source-sans-pro-fonts'
 )
