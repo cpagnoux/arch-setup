@@ -59,6 +59,7 @@ accessories=(
 )
 
 development=(
+	'cmake'
 	'docker'
 	'docker-compose'
 	'gdb'
