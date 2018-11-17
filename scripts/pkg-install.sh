@@ -71,7 +71,9 @@ development=(
 	'yarn'
 	'php'
 	'php-fpm'
+	'php-sqlite'
 	'composer'
+	'sqlite'
 	'vim'
 )
 
