@@ -130,12 +130,12 @@ usage() {
 Usage: $0 PACKAGE_SET
 
 Package sets:
-  full     install the complete set
+  normal   install the complete set
   minimal  install a minimalist set
 EOF
 }
 
-full_install() {
+normal_install() {
 	pacman -S "${gui[@]}" \
 		"${base_apps[@]}" \
 		"${customization[@]}" \
@@ -164,8 +164,8 @@ minimal_install() {
 }
 
 case "$1" in
-'full')
-	full_install
+'normal')
+	normal_install
 	;;
 'minimal')
 	minimal_install
