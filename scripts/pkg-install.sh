@@ -125,13 +125,22 @@ wine=(
 	'winetricks'
 )
 
+driver_ati=(
+	'mesa'
+	'lib32-mesa'
+	'xf86-video-ati'
+	'libva-mesa-driver'
+	'lib32-libva-mesa-driver'
+)
+
 usage() {
 	cat << EOF
 Usage: $0 PACKAGE_SET
 
 Package sets:
-  normal   install the complete set
-  minimal  install a minimalist set
+  normal      install the complete set
+  minimal     install a minimalist set
+  driver-ati  install the open source ATI driver
 EOF
 }
 
@@ -163,12 +172,19 @@ minimal_install() {
 		"${internet[1]}"
 }
 
+driver_ati_install() {
+	pacman -S "${driver_ati[@]}"
+}
+
 case "$1" in
 'normal')
 	normal_install
 	;;
 'minimal')
 	minimal_install
+	;;
+'driver-ati')
+	driver_ati_install
 	;;
 *)
 	usage
