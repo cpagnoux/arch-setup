@@ -78,6 +78,7 @@ development=(
 )
 
 games=(
+	'lutris'
 	'steam'
 )
 
