@@ -59,14 +59,19 @@ accessories=(
 )
 
 development=(
+	'apache'
 	'cmake'
 	'docker'
 	'docker-compose'
 	'gdb'
 	'git'
+	'mariadb-clients'
 	'nodejs'
 	'npm'
 	'yarn'
+	'php'
+	'php-fpm'
+	'composer'
 	'vim'
 )
 
