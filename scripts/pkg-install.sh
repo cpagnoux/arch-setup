@@ -75,6 +75,7 @@ development=(
 	'composer'
 	'sqlite'
 	'vim'
+	'ctags'
 )
 
 games=(
