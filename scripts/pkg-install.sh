@@ -141,6 +141,14 @@ driver_intel=(
 	'lib32-vulkan-intel'
 )
 
+driver_nvidia=(
+	'nvidia-dkms'
+	'nvidia-utils'
+	'lib32-nvidia-utils'
+	'vulkan-icd-loader'
+	'lib32-vulkan-icd-loader'
+)
+
 driver_ati=(
 	'mesa'
 	'lib32-mesa'
@@ -154,10 +162,11 @@ usage() {
 Usage: $0 PACKAGE_SET
 
 Package sets:
-  normal        install the complete set
-  minimal       install a minimalist set
-  driver-intel  install the open source Intel driver
-  driver-ati    install the open source ATI driver
+  normal         install the complete set
+  minimal        install a minimalist set
+  driver-intel   install the open source Intel driver
+  driver-nvidia  install the proprietary NVIDIA driver
+  driver-ati     install the open source ATI driver
 EOF
 }
 
@@ -193,6 +202,10 @@ driver_intel_install() {
 	pacman -S "${driver_intel[@]}"
 }
 
+driver_nvidia_install() {
+	pacman -S "${driver_nvidia[@]}"
+}
+
 driver_ati_install() {
 	pacman -S "${driver_ati[@]}"
 }
@@ -206,6 +219,9 @@ case "$1" in
 	;;
 'driver-intel')
 	driver_intel_install
+	;;
+'driver-nvidia')
+	driver_nvidia_install
 	;;
 'driver-ati')
 	driver_ati_install
