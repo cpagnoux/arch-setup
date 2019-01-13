@@ -39,6 +39,7 @@ cli_tools=(
 	'openssh'
 	'pacman-contrib'
 	'pkgfile'
+	'pwgen'
 	'screenfetch'
 	'smartmontools'
 	'wget'
