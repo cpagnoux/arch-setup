@@ -126,6 +126,13 @@ config_post_chroot() {
 	while [[ -z "$interface" ]]; do
 		read interface
 	done
+
+	echo "Which manufacturer is your CPU from?"
+	echo "1) Intel  2) AMD"
+	read cpu_manufacturer
+	while [[ "$cpu_manufacturer" != 1 && "$cpu_manufacturer" != 2 ]]; do
+		read cpu_manufacturer
+	done
 }
 
 configure_post_chroot() {
@@ -173,6 +180,17 @@ configure_post_chroot() {
 
 	useradd -m -G wheel -s /bin/bash "$login"
 	passwd "$login"
+
+	# Microcode updates
+	echo "Installing required package for microcode updates..."
+	case "$cpu_manufacturer" in
+	1)
+		pacman -S --noconfirm intel-ucode
+		;;
+	2)
+		pacman -S --noconfirm amd-ucode
+		;;
+	esac
 
 	# Boot loader
 	echo "Installing boot loader..."
