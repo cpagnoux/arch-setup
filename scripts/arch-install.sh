@@ -7,7 +7,7 @@ readonly region='Europe'
 readonly city='Paris'
 readonly locale='fr_FR.UTF-8 UTF-8'
 readonly lang='en_US.UTF-8'
-readonly keymap='uk'
+readonly keymap='us'
 
 usage() {
 	cat << EOF
