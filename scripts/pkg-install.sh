@@ -55,6 +55,7 @@ base_gui_apps=(
 	'eom'
 	'atril'
 	'engrampa'
+	'unrar'
 )
 
 accessories=(
