@@ -1,0 +1,28 @@
+#!/bin/bash
+
+readonly backlight_dir='/sys/class/backlight/intel_backlight'
+[[ -r "$backlight_dir/max_brightness" ]] || exit 1
+[[ -w "$backlight_dir/brightness" ]] || exit 1
+
+readonly max_brightness="$(< "$backlight_dir/max_brightness")"
+
+powersave_on() {
+	local brightness=$((max_brightness / 2))
+	echo "$brightness" > "$backlight_dir/brightness"
+}
+
+powersave_off() {
+	echo "$max_brightness" > "$backlight_dir/brightness"
+}
+
+case "$1" in
+'true')
+	powersave_on
+	;;
+'false')
+	powersave_off
+	;;
+*)
+	exit 1
+	;;
+esac
