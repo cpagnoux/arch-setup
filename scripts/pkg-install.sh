@@ -147,6 +147,7 @@ driver_nvidia=(
 	'lib32-nvidia-utils'
 	'vulkan-icd-loader'
 	'lib32-vulkan-icd-loader'
+	'nvidia-settings'
 )
 
 driver_ati=(
