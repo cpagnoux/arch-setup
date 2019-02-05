@@ -33,6 +33,7 @@ customization=(
 )
 
 cli_tools=(
+	'cpupower'
 	'fuseiso'
 	'imagemagick'
 	'lm_sensors'
