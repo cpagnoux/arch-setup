@@ -25,11 +25,13 @@ customization=(
 	'archlinux-wallpaper'
 	'adapta-gtk-theme'
 	'arc-gtk-theme'
+	'materia-gtk-theme'
 	'numix-gtk-theme'
 	'elementary-icon-theme'
 	'papirus-icon-theme'
 	'adobe-source-code-pro-fonts'
 	'adobe-source-sans-pro-fonts'
+	'ttf-roboto'
 )
 
 cli_tools=(
