@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Script automating installation of Arch Linux.
-# Optimized for my needs.
+# Written according to my needs.
 
 readonly region='Europe'
 readonly city='Paris'
@@ -16,6 +16,7 @@ Usage: $0 COMMAND
 Commands:
   pre-chroot   execute pre-chroot installation process
   post-chroot  execute post-chroot installation process
+  tweaks       apply optional tweaks
 EOF
 }
 
@@ -210,6 +211,26 @@ configure_post_chroot() {
 	grub-mkconfig -o /boot/grub/grub.cfg
 }
 
+tweaks() {
+	echo "Configuring sudoers..."
+	cp /etc/sudoers /etc/sudoers.bak
+	sed -i 's/^# \(%wheel ALL=(ALL) ALL\)/\1/' /etc/sudoers
+
+	echo "Enabling multilib repository..."
+	cp /etc/pacman.conf /etc/pacman.conf.bak
+	sed -i 's/^#\(\[multilib\]\)/\1/' /etc/pacman.conf
+	awk '
+		/^#Include/ {
+			if (prev == "[multilib]") {
+				sub(/^#Include/, "Include")
+			}
+		}
+		{ print }
+		{ prev = $0 }
+	' /etc/pacman.conf > /tmp/pacman.conf
+	mv /tmp/pacman.conf /etc/pacman.conf
+}
+
 case "$1" in
 'pre-chroot')
 	config_pre_chroot
@@ -220,6 +241,9 @@ case "$1" in
 'post-chroot')
 	config_post_chroot
 	configure_post_chroot
+	;;
+'tweaks')
+	tweaks
 	;;
 *)
 	usage
