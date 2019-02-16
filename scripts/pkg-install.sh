@@ -106,7 +106,6 @@ multimedia=(
 	'audacious'
 	'brasero'
 	'vlc'
-	'qt4'
 )
 
 office=(
