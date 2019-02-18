@@ -31,6 +31,7 @@ customization=(
 	'papirus-icon-theme'
 	'adobe-source-code-pro-fonts'
 	'adobe-source-sans-pro-fonts'
+	'ttf-inconsolata'
 	'ttf-roboto'
 )
 
