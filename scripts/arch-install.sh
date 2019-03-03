@@ -20,7 +20,16 @@ Commands:
 EOF
 }
 
-config_pre_chroot() {
+########################################
+# Set the following global variables:
+#   boot_mode
+#   boot
+#   swap
+#   root
+#   var
+#   home
+########################################
+prechrt_prepare() {
 	echo "Boot mode:"
 	echo "1) BIOS  2) UEFI"
 	read boot_mode
@@ -31,27 +40,36 @@ config_pre_chroot() {
 	lsblk
 	echo "Partition for /boot (leave blank if none):"
 	read boot
-	while [[ -z "$boot" && "$boot_mode" = 2 ]]; do
+	while [[ -n "$boot" || "$boot_mode" = 2 ]] && [[ ! -b "$boot" ]]; do
 		read boot
 	done
 
 	echo "Partition for [SWAP] (leave blank if none):"
 	read swap
+	while [[ -n "$swap" && ! -b "$swap" ]]; do
+		read swap
+	done
 
 	echo "Partition for /:"
 	read root
-	while [[ -z "$root" ]]; do
+	while [[ ! -b "$root" ]]; do
 		read root
 	done
 
 	echo "Partition for /var (leave blank if none):"
 	read var
+	while [[ -n "$var" && ! -b "$var" ]]; do
+		read var
+	done
 
 	echo "Partition for /home (leave blank if none):"
 	read home
+	while [[ -n "$home" && ! -b "$home" ]]; do
+		read home
+	done
 }
 
-pre_install() {
+prechrt_pre_install() {
 	# Update the system clock
 	echo "Updating system clock..."
 	timedatectl set-ntp true
@@ -87,13 +105,13 @@ pre_install() {
 	fi
 }
 
-install() {
+prechrt_install() {
 	# Install the base packages
 	echo "Installing base packages..."
 	pacstrap /mnt base base-devel
 }
 
-configure_pre_chroot() {
+prechrt_configure() {
 	# Fstab
 	echo "Generating fstab..."
 	genfstab -U /mnt >> /mnt/etc/fstab
@@ -105,7 +123,16 @@ configure_pre_chroot() {
 	arch-chroot /mnt
 }
 
-config_post_chroot() {
+########################################
+# Set the following global variables:
+#   boot_mode
+#   hostname
+#   connection_type
+#   interface
+#   cpu_manufacturer
+#   ssd
+########################################
+postchrt_prepare() {
 	boot_mode="$(< BOOT_MODE)"
 
 	echo "Define hostname:"
@@ -134,9 +161,15 @@ config_post_chroot() {
 	while [[ "$cpu_manufacturer" != 1 && "$cpu_manufacturer" != 2 ]]; do
 		read cpu_manufacturer
 	done
+
+	echo "Are you using an SSD? [y/n]"
+	read ssd
+	while [[ "$ssd" != 'y' && "$ssd" != 'n' ]]; do
+		read ssd
+	done
 }
 
-configure_post_chroot() {
+postchrt_configure() {
 	# Time zone
 	echo "Setting time zone..."
 	ln -sf "/usr/share/zoneinfo/$region/$city" /etc/localtime
@@ -193,6 +226,17 @@ configure_post_chroot() {
 		;;
 	esac
 
+	# SSD trimming
+	case "$ssd" in
+	'y')
+		echo "An SSD is present in the system, enabling fstrim timer..."
+		systemctl enable fstrim.timer
+		;;
+	'n')
+		echo "No SSD is present in the system, skipping..."
+		;;
+	esac
+
 	# Boot loader
 	echo "Installing boot loader..."
 	case "$boot_mode" in
@@ -209,9 +253,15 @@ configure_post_chroot() {
 		;;
 	esac
 	grub-mkconfig -o /boot/grub/grub.cfg
+
+	cat << EOF
+Installation complete!
+You can now apply the optional system tweaks or simply reboot into your newly
+installed system.
+EOF
 }
 
-tweaks() {
+apply_tweaks() {
 	echo "Configuring sudoers..."
 	cp /etc/sudoers /etc/sudoers.bak
 	sed -i 's/^# \(%wheel ALL=(ALL) ALL\)/\1/' /etc/sudoers
@@ -229,21 +279,26 @@ tweaks() {
 		{ prev = $0 }
 	' /etc/pacman.conf > /tmp/pacman.conf
 	mv /tmp/pacman.conf /etc/pacman.conf
+
+	cat << EOF
+Tweaks applied successfully!
+You can now reboot into your newly installed system.
+EOF
 }
 
 case "$1" in
 'pre-chroot')
-	config_pre_chroot
-	pre_install
-	install
-	configure_pre_chroot
+	prechrt_prepare
+	prechrt_pre_install
+	prechrt_install
+	prechrt_configure
 	;;
 'post-chroot')
-	config_post_chroot
-	configure_post_chroot
+	postchrt_prepare
+	postchrt_configure
 	;;
 'tweaks')
-	tweaks
+	apply_tweaks
 	;;
 *)
 	usage
