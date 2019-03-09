@@ -20,6 +20,10 @@ Commands:
 EOF
 }
 
+################################################################################
+# PRE-CHROOT
+################################################################################
+
 ########################################
 # Set the following global variables:
 #   boot_mode
@@ -123,6 +127,10 @@ prechrt_configure() {
 	arch-chroot /mnt
 }
 
+################################################################################
+# POST-CHROOT
+################################################################################
+
 ########################################
 # Set the following global variables:
 #   boot_mode
@@ -151,7 +159,7 @@ postchrt_prepare() {
 	ip link
 	echo "Enter the name of the network interface you want to use:"
 	read interface
-	while [[ -z "$interface" ]]; do
+	while [[ -z "$(grep "^$interface:" /proc/net/dev)" ]]; do
 		read interface
 	done
 
@@ -260,6 +268,10 @@ You can now apply the optional system tweaks or simply reboot into your newly
 installed system.
 EOF
 }
+
+################################################################################
+# TWEAKS
+################################################################################
 
 apply_tweaks() {
 	echo "Configuring sudoers..."
