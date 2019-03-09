@@ -33,7 +33,6 @@ customization=(
 	'adobe-source-sans-pro-fonts'
 	'ttf-inconsolata'
 	'ttf-roboto'
-	'qt5-styleplugins'
 )
 
 cli_tools=(
