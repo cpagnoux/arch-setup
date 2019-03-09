@@ -1,168 +1,168 @@
 #!/bin/bash
 
-gui=(
-	'xorg'
-	'i3'
-	'dmenu'
-	'lightdm'
-	'lightdm-gtk-greeter'
-	'numlockx'
+readonly gui=(
+	xorg
+	i3
+	dmenu
+	lightdm
+	lightdm-gtk-greeter
+	numlockx
 )
 
-base_apps=(
-	'rxvt-unicode'
-	'bash-completion'
-	'nitrogen'
-	'conky'
-	'lsb-release'
-	'dunst'
-	'volumeicon'
-	'alsa-utils'
-	'scrot'
+readonly base_apps=(
+	rxvt-unicode
+	bash-completion
+	nitrogen
+	conky
+	lsb-release
+	dunst
+	volumeicon
+	alsa-utils
+	scrot
 )
 
-customization=(
-	'archlinux-wallpaper'
-	'adapta-gtk-theme'
-	'arc-gtk-theme'
-	'materia-gtk-theme'
-	'numix-gtk-theme'
-	'elementary-icon-theme'
-	'papirus-icon-theme'
-	'adobe-source-code-pro-fonts'
-	'adobe-source-sans-pro-fonts'
-	'ttf-inconsolata'
-	'ttf-roboto'
+readonly customization=(
+	archlinux-wallpaper
+	adapta-gtk-theme
+	arc-gtk-theme
+	materia-gtk-theme
+	numix-gtk-theme
+	elementary-icon-theme
+	papirus-icon-theme
+	adobe-source-code-pro-fonts
+	adobe-source-sans-pro-fonts
+	ttf-inconsolata
+	ttf-roboto
 )
 
-cli_tools=(
-	'cpupower'
-	'fuseiso'
-	'hdparm'
-	'imagemagick'
-	'lm_sensors'
-	'openssh'
-	'pacman-contrib'
-	'pkgfile'
-	'pwgen'
-	'screenfetch'
-	'smartmontools'
-	'wget'
-	'xclip'
-	'xdg-user-dirs'
+readonly cli_tools=(
+	cpupower
+	fuseiso
+	hdparm
+	imagemagick
+	lm_sensors
+	openssh
+	pacman-contrib
+	pkgfile
+	pwgen
+	screenfetch
+	smartmontools
+	wget
+	xclip
+	xdg-user-dirs
 )
 
-base_gui_apps=(
-	'caja'
-	'gvfs'
-	'gvfs-mtp'
-	'pluma'
-	'eom'
-	'atril'
-	'engrampa'
-	'unrar'
+readonly base_gui_apps=(
+	caja
+	gvfs
+	gvfs-mtp
+	pluma
+	eom
+	atril
+	engrampa
+	unrar
 )
 
-accessories=(
-	'keepassx2'
+readonly accessories=(
+	keepassx2
 )
 
-development=(
-	'apache'
-	'cmake'
-	'docker'
-	'docker-compose'
-	'gdb'
-	'git'
-	'mariadb-clients'
-	'php'
-	'php-fpm'
-	'php-sqlite'
-	'composer'
-	'sqlite'
-	'vim'
-	'fzf'
-	'ctags'
+readonly development=(
+	apache
+	cmake
+	docker
+	docker-compose
+	gdb
+	git
+	mariadb-clients
+	php
+	php-fpm
+	php-sqlite
+	composer
+	sqlite
+	vim
+	fzf
+	ctags
 )
 
-games=(
-	'lutris'
-	'steam'
+readonly games=(
+	lutris
+	steam
 )
 
-graphics=(
-	'gimp'
-	'inkscape'
-	'shotwell'
+readonly graphics=(
+	gimp
+	inkscape
+	shotwell
 )
 
-internet=(
-	'chromium'
-	'pepper-flash'
-	'filezilla'
-	'hexchat'
-	'transmission-gtk'
+readonly internet=(
+	chromium
+	pepper-flash
+	filezilla
+	hexchat
+	transmission-gtk
 )
 
-multimedia=(
-	'audacious'
-	'brasero'
-	'vlc'
+readonly multimedia=(
+	audacious
+	brasero
+	vlc
 )
 
-office=(
-	'libreoffice-fresh'
-	'pandoc'
-	'texlive-most'
+readonly office=(
+	libreoffice-fresh
+	pandoc
+	texlive-most
 )
 
-system=(
-	'gparted'
-	'dosfstools'
-	'exfat-utils'
-	'ntfs-3g'
-	'virtualbox'
-	'virtualbox-host-modules-arch'
-	'virtualbox-guest-iso'
+readonly system=(
+	gparted
+	dosfstools
+	exfat-utils
+	ntfs-3g
+	virtualbox
+	virtualbox-host-modules-arch
+	virtualbox-guest-iso
 )
 
-wine=(
-	'wine-staging'
-	'wine_gecko'
-	'wine-mono'
-	'winetricks'
+readonly wine=(
+	wine-staging
+	wine_gecko
+	wine-mono
+	winetricks
 )
 
-driver_intel=(
-	'mesa'
-	'lib32-mesa'
-	'libva-intel-driver'
-	'lib32-libva-intel-driver'
-	'vulkan-icd-loader'
-	'lib32-vulkan-icd-loader'
-	'vulkan-intel'
-	'lib32-vulkan-intel'
+readonly driver_intel=(
+	mesa
+	lib32-mesa
+	libva-intel-driver
+	lib32-libva-intel-driver
+	vulkan-icd-loader
+	lib32-vulkan-icd-loader
+	vulkan-intel
+	lib32-vulkan-intel
 )
 
-driver_nvidia=(
-	'nvidia-dkms'
-	'nvidia-utils'
-	'lib32-nvidia-utils'
-	'vulkan-icd-loader'
-	'lib32-vulkan-icd-loader'
-	'nvidia-settings'
+readonly driver_nvidia=(
+	nvidia-dkms
+	nvidia-utils
+	lib32-nvidia-utils
+	vulkan-icd-loader
+	lib32-vulkan-icd-loader
+	nvidia-settings
 )
 
-driver_ati=(
-	'mesa'
-	'lib32-mesa'
-	'xf86-video-ati'
-	'libva-mesa-driver'
-	'lib32-libva-mesa-driver'
+readonly driver_ati=(
+	mesa
+	lib32-mesa
+	xf86-video-ati
+	libva-mesa-driver
+	lib32-libva-mesa-driver
 )
 
 usage() {
-	cat << EOF
+	cat <<EOF
 Usage: $0 PACKAGE_SET
 
 Package sets:
@@ -215,19 +215,19 @@ driver_ati_install() {
 }
 
 case "$1" in
-'normal')
+normal)
 	normal_install
 	;;
-'minimal')
+minimal)
 	minimal_install
 	;;
-'driver-intel')
+driver-intel)
 	driver_intel_install
 	;;
-'driver-nvidia')
+driver-nvidia)
 	driver_nvidia_install
 	;;
-'driver-ati')
+driver-ati)
 	driver_ati_install
 	;;
 *)

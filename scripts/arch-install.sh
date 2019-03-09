@@ -3,14 +3,14 @@
 # Script automating installation of Arch Linux.
 # Written according to my needs.
 
-readonly region='Europe'
-readonly city='Paris'
+readonly region=Europe
+readonly city=Paris
 readonly locale='fr_FR.UTF-8 UTF-8'
-readonly lang='en_US.UTF-8'
-readonly keymap='us'
+readonly lang=en_US.UTF-8
+readonly keymap=us
 
 usage() {
-	cat << EOF
+	cat <<EOF
 Usage: $0 COMMAND
 
 Commands:
@@ -118,12 +118,12 @@ prechrt_install() {
 prechrt_configure() {
 	# Fstab
 	echo "Generating fstab..."
-	genfstab -U /mnt >> /mnt/etc/fstab
+	genfstab -U /mnt >>/mnt/etc/fstab
 
 	# Chroot
 	echo "Changing root into the new system..."
 	cp "$0" /mnt/
-	echo "$boot_mode" > /mnt/BOOT_MODE
+	echo "$boot_mode" >/mnt/BOOT_MODE
 	arch-chroot /mnt
 }
 
@@ -141,7 +141,7 @@ prechrt_configure() {
 #   ssd
 ########################################
 postchrt_prepare() {
-	boot_mode="$(< BOOT_MODE)"
+	boot_mode="$(<BOOT_MODE)"
 
 	echo "Define hostname:"
 	read hostname
@@ -172,7 +172,7 @@ postchrt_prepare() {
 
 	echo "Are you using an SSD? [y/n]"
 	read ssd
-	while [[ "$ssd" != 'y' && "$ssd" != 'n' ]]; do
+	while [[ "$ssd" != y && "$ssd" != n ]]; do
 		read ssd
 	done
 }
@@ -188,14 +188,14 @@ postchrt_configure() {
 	sed -i 's/^#\(en_US\.UTF-8 UTF-8\)/\1/' /etc/locale.gen
 	sed -i "s/^#\($locale\)/\1/" /etc/locale.gen
 	locale-gen
-	echo "LANG=$lang" > /etc/locale.conf
-	echo "KEYMAP=$keymap" > /etc/vconsole.conf
+	echo "LANG=$lang" >/etc/locale.conf
+	echo "KEYMAP=$keymap" >/etc/vconsole.conf
 
 	# Hostname
 	echo "Setting hostname..."
-	echo "$hostname" > /etc/hostname
-	echo "" >> /etc/hosts
-	echo -e "127.0.1.1\t$hostname.localdomain\t$hostname" >> /etc/hosts
+	echo "$hostname" >/etc/hostname
+	echo "" >>/etc/hosts
+	echo -e "127.0.1.1\t$hostname.localdomain\t$hostname" >>/etc/hosts
 
 	# Network configuration
 	echo "Configuring network..."
@@ -236,11 +236,11 @@ postchrt_configure() {
 
 	# SSD trimming
 	case "$ssd" in
-	'y')
+	y)
 		echo "An SSD is present in the system, enabling fstrim timer..."
 		systemctl enable fstrim.timer
 		;;
-	'n')
+	n)
 		echo "No SSD is present in the system, skipping..."
 		;;
 	esac
@@ -262,7 +262,7 @@ postchrt_configure() {
 	esac
 	grub-mkconfig -o /boot/grub/grub.cfg
 
-	cat << EOF
+	cat <<EOF
 Installation complete!
 You can now apply the optional system tweaks or simply reboot into your newly
 installed system.
@@ -289,27 +289,27 @@ apply_tweaks() {
 		}
 		{ print }
 		{ prev = $0 }
-	' /etc/pacman.conf > /tmp/pacman.conf
+	' /etc/pacman.conf >/tmp/pacman.conf
 	mv /tmp/pacman.conf /etc/pacman.conf
 
-	cat << EOF
+	cat <<EOF
 Tweaks applied successfully!
 You can now reboot into your newly installed system.
 EOF
 }
 
 case "$1" in
-'pre-chroot')
+pre-chroot)
 	prechrt_prepare
 	prechrt_pre_install
 	prechrt_install
 	prechrt_configure
 	;;
-'post-chroot')
+post-chroot)
 	postchrt_prepare
 	postchrt_configure
 	;;
-'tweaks')
+tweaks)
 	apply_tweaks
 	;;
 *)
