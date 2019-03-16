@@ -123,7 +123,7 @@ prechrt_configure() {
 	# Chroot
 	echo "Changing root into the new system..."
 	cp "$0" /mnt/
-	echo "$boot_mode" >/mnt/BOOT_MODE
+	echo "$boot_mode" >/mnt/env.boot_mode
 	arch-chroot /mnt
 }
 
@@ -139,9 +139,10 @@ prechrt_configure() {
 #   interface
 #   cpu_manufacturer
 #   ssd
+#   encryption
 ########################################
 postchrt_prepare() {
-	boot_mode="$(<BOOT_MODE)"
+	boot_mode="$(<env.boot_mode)"
 
 	echo "Define hostname:"
 	read hostname
@@ -174,6 +175,12 @@ postchrt_prepare() {
 	read ssd
 	while [[ "$ssd" != y && "$ssd" != n ]]; do
 		read ssd
+	done
+
+	echo "Is your system encrypted?"
+	read encryption
+	while [[ "$encryption" != y && "$encryption" != n ]]; do
+		read encryption
 	done
 }
 
@@ -260,7 +267,38 @@ postchrt_configure() {
 			--bootloader-id=grub
 		;;
 	esac
+
+	# dm-crypt
+	if [[ "$encryption" = y ]]; then
+		sed -i 's/^\(HOOKS=.*\)udev/\1systemd/' /etc/mkinitcpio.conf
+		sed -i 's/^\(HOOKS=.*\)\(filesystems\)/\1sd-encrypt \2/' \
+			/etc/mkinitcpio.conf
+		mkinitcpio -P
+
+		local root_uuid="$(lsblk -f \
+			| awk '/\/$/ { print uuid } { uuid = $3 }')"
+		sed -i "s/^\(GRUB_CMDLINE_LINUX=\"\)/\1rd.luks.name=$root_uuid=cryptroot rd.luks.options=discard root=\/dev\/mapper\/cryptroot/" \
+			/etc/default/grub
+
+		local var_uuid="$(lsblk -f \
+			| awk '/\/var/ { print uuid } { uuid = $3 }')"
+		if [[ -n "$var_uuid" ]]; then
+			echo "cryptvar       UUID=$var_uuid    none                    luks,discard" \
+				>>/etc/crypttab
+		fi
+
+		local home_uuid="$(lsblk -f \
+			| awk '/\/home/ { print uuid } { uuid = $3 }')"
+		if [[ -n "$home_uuid" ]]; then
+			echo "crypthome      UUID=$home_uuid    none                    luks,discard" \
+				>>/etc/crypttab
+		fi
+	fi
+
 	grub-mkconfig -o /boot/grub/grub.cfg
+
+	# Cleaning
+	rm -f env.boot_mode
 
 	cat <<EOF
 Installation complete!
