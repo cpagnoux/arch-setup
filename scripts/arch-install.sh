@@ -177,11 +177,20 @@ postchrt_prepare() {
 		read ssd
 	done
 
-	echo "Is your system encrypted?"
+	echo "Is your system encrypted? [y/n]"
 	read encryption
 	while [[ "$encryption" != y && "$encryption" != n ]]; do
 		read encryption
 	done
+}
+
+get_uuid() {
+	local mountpoint="$1"
+
+	local device="$(lsblk \
+		| awk "/\\$mountpoint$/ { print device } { device = \$1 }" \
+		| sed 's/^[^a-z0-9]*\([a-z0-9]*\)$/\/dev\/\1/')"
+	echo "$(blkid "$device" | sed 's/^.* UUID="\(.*\)" TYPE=.*$/\1/')"
 }
 
 postchrt_configure() {
@@ -275,20 +284,17 @@ postchrt_configure() {
 			/etc/mkinitcpio.conf
 		mkinitcpio -P
 
-		local root_uuid="$(lsblk -f \
-			| awk '/\/$/ { print uuid } { uuid = $3 }')"
+		local root_uuid="$(get_uuid /)"
 		sed -i "s/^\(GRUB_CMDLINE_LINUX=\"\)/\1rd.luks.name=$root_uuid=cryptroot rd.luks.options=discard root=\/dev\/mapper\/cryptroot/" \
 			/etc/default/grub
 
-		local var_uuid="$(lsblk -f \
-			| awk '/\/var/ { print uuid } { uuid = $3 }')"
+		local var_uuid="$(get_uuid /var)"
 		if [[ -n "$var_uuid" ]]; then
 			echo "cryptvar       UUID=$var_uuid    none                    luks,discard" \
 				>>/etc/crypttab
 		fi
 
-		local home_uuid="$(lsblk -f \
-			| awk '/\/home/ { print uuid } { uuid = $3 }')"
+		local home_uuid="$(get_uuid /home)"
 		if [[ -n "$home_uuid" ]]; then
 			echo "crypthome      UUID=$home_uuid    none                    luks,discard" \
 				>>/etc/crypttab
