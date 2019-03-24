@@ -278,7 +278,10 @@ postchrt_configure() {
 	esac
 
 	# dm-crypt
-	if [[ "$encryption" = y ]]; then
+	case "$encryption" in
+	y)
+		echo "System is encrypted, configuring mkinitcpio, boot loader and crypttab..."
+
 		sed -i 's/^\(HOOKS=.*\)udev/\1systemd/' /etc/mkinitcpio.conf
 		sed -i 's/^\(HOOKS=.*\)\(filesystems\)/\1sd-encrypt \2/' \
 			/etc/mkinitcpio.conf
@@ -299,8 +302,13 @@ postchrt_configure() {
 			echo "crypthome      UUID=$home_uuid    none                    luks,discard" \
 				>>/etc/crypttab
 		fi
-	fi
+		;;
+	n)
+		echo "System is not encrypted, skipping..."
+		;;
+	esac
 
+	# Boot loader - final installment
 	grub-mkconfig -o /boot/grub/grub.cfg
 
 	# Cleaning
