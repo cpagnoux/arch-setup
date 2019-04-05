@@ -31,6 +31,7 @@ readonly customization=(
 	papirus-icon-theme
 	adobe-source-code-pro-fonts
 	adobe-source-sans-pro-fonts
+	ttf-anonymous-pro
 	ttf-inconsolata
 	ttf-roboto
 )
