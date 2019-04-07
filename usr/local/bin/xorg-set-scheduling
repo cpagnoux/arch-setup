@@ -1,3 +1,0 @@
-#!/bin/bash
-
-schedtool -I -n -10 "$(pidof Xorg)"
