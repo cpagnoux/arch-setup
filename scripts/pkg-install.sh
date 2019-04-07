@@ -95,6 +95,7 @@ readonly graphics=(
 	gimp
 	inkscape
 	shotwell
+	simple-scan
 )
 
 readonly internet=(
@@ -118,6 +119,7 @@ readonly office=(
 )
 
 readonly system=(
+	cups
 	gparted
 	dosfstools
 	exfat-utils
