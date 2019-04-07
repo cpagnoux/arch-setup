@@ -146,6 +146,7 @@ readonly driver_intel=(
 )
 
 readonly driver_nvidia=(
+	linux-headers
 	nvidia-dkms
 	nvidia-utils
 	lib32-nvidia-utils
