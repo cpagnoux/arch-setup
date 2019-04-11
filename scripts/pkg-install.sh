@@ -134,6 +134,9 @@ readonly wine=(
 	wine_gecko
 	wine-mono
 	winetricks
+	lib32-dbus
+	lib32-gnutls
+	samba
 )
 
 readonly driver_intel=(
