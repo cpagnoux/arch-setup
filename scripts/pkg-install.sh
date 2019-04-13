@@ -32,6 +32,7 @@ readonly customization=(
 	adobe-source-code-pro-fonts
 	adobe-source-sans-pro-fonts
 	ttf-anonymous-pro
+	ttf-font-awesome
 	ttf-inconsolata
 	ttf-roboto
 )
