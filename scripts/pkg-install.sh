@@ -70,7 +70,6 @@ readonly accessories=(
 )
 
 readonly development=(
-	apache
 	cmake
 	docker
 	docker-compose
@@ -78,7 +77,6 @@ readonly development=(
 	git
 	mariadb-clients
 	php
-	php-fpm
 	php-sqlite
 	composer
 	sqlite
