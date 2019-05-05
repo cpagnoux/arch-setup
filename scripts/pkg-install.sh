@@ -66,7 +66,7 @@ readonly base_gui_apps=(
 )
 
 readonly accessories=(
-	keepassx2
+	keepassxc
 )
 
 readonly development=(
