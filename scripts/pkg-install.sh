@@ -33,6 +33,7 @@ readonly customization=(
 	adobe-source-sans-pro-fonts
 	ttf-anonymous-pro
 	ttf-font-awesome
+	ttf-hack
 	ttf-inconsolata
 	ttf-roboto
 )
