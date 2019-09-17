@@ -344,6 +344,10 @@ apply_tweaks() {
 	' /etc/pacman.conf >/tmp/pacman.conf
 	mv /tmp/pacman.conf /etc/pacman.conf
 
+	echo "Enabling fancy pacman output..."
+	sed -i 's/^#\(Color\)/\1/' /etc/pacman.conf
+	sed -i '/^# Misc options/a \ILoveCandy' /etc/pacman.conf
+
 	cat <<EOF
 Tweaks applied successfully!
 You can now reboot into your newly installed system.
