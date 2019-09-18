@@ -78,6 +78,7 @@ readonly development=(
 	mariadb-clients
 	php
 	php-sqlite
+	xdebug
 	composer
 	sqlite
 	vim
