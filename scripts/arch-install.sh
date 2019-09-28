@@ -220,7 +220,7 @@ postchrt_configure() {
 		systemctl enable "dhcpcd@$interface.service"
 		;;
 	2)
-		pacman -S --noconfirm iw wpa_supplicant dialog wpa_actiond
+		pacman -S --noconfirm wpa_supplicant dialog
 		systemctl enable "netctl-auto@$interface.service"
 		;;
 	esac
