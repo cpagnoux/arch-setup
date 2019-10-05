@@ -46,6 +46,7 @@ readonly cli_tools=(
 	openssh
 	pacman-contrib
 	pkgfile
+	playerctl
 	pwgen
 	screenfetch
 	smartmontools
