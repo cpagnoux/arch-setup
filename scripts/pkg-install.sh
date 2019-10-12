@@ -12,6 +12,7 @@ readonly gui=(
 readonly base_apps=(
 	rxvt-unicode
 	bash-completion
+	zsh
 	nitrogen
 	conky
 	lsb-release
