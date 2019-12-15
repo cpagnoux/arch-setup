@@ -1,0 +1,13 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Path
+Target = usr/lib/modules/*/vmlinuz
+Target = usr/lib/initcpio/*
+
+[Action]
+Description = Checking for boot partition integrity...
+When = PreTransaction
+Exec = /usr/bin/bash -c 'find /boot -type f -exec sha256sum {} \; | diff /var/cache/boot.sha256 -'
+AbortOnFail

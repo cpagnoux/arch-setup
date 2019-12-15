@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Path
+Target = usr/lib/modules/*/vmlinuz
+Target = usr/lib/initcpio/*
+
+[Action]
+Description = Updating checksums of boot partition...
+When = PostTransaction
+Exec = /usr/bin/bash -c 'find /boot -type f -exec sha256sum {} \; >/var/cache/boot.sha256'
