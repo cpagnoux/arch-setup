@@ -57,13 +57,13 @@ readonly cli_tools=(
 )
 
 readonly base_gui_apps=(
-	caja
+	nautilus
 	gvfs
 	gvfs-mtp
-	pluma
-	eom
-	atril
-	engrampa
+	gedit
+	eog
+	evince
+	file-roller
 	unrar
 )
 
