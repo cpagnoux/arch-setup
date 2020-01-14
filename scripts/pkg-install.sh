@@ -49,6 +49,7 @@ readonly cli_tools=(
 	pkgfile
 	playerctl
 	pwgen
+	redshift
 	screenfetch
 	smartmontools
 	wget
