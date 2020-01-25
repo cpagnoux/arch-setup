@@ -10,7 +10,7 @@ readonly gui=(
 )
 
 readonly base_apps=(
-	rxvt-unicode
+	kitty
 	bash-completion
 	zsh
 	nitrogen
