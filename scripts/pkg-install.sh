@@ -14,10 +14,7 @@ readonly base_apps=(
 	bash-completion
 	zsh
 	nitrogen
-	conky
-	lsb-release
 	dunst
-	volumeicon
 	alsa-utils
 	scrot
 )
@@ -45,6 +42,7 @@ readonly cli_tools=(
 	hdparm
 	imagemagick
 	lm_sensors
+	lsb-release
 	openssh
 	pacman-contrib
 	pkgfile
