@@ -82,6 +82,7 @@ readonly development=(
 	php-sqlite
 	xdebug
 	composer
+	plantuml
 	sqlite
 	vim
 	fzf
