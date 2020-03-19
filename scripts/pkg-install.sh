@@ -27,7 +27,6 @@ readonly customization=(
 	elementary-icon-theme
 	papirus-icon-theme
 	adobe-source-code-pro-fonts
-	adobe-source-sans-pro-fonts
 	noto-fonts-emoji
 	ttf-anonymous-pro
 	ttf-font-awesome
@@ -95,8 +94,6 @@ readonly games=(
 )
 
 readonly graphics=(
-	gimp
-	inkscape
 	shotwell
 	simple-scan
 )
@@ -110,13 +107,10 @@ readonly internet=(
 )
 
 readonly multimedia=(
-	audacious
-	brasero
 	vlc
 )
 
 readonly office=(
-	libreoffice-fresh
 	pandoc
 	texlive-most
 )
