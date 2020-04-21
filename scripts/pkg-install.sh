@@ -207,7 +207,7 @@ readonly driver_ati=(
 
 usage() {
 	cat <<EOF
-Usage: $0 PACKAGE_SET
+Usage: $0 <package-set>
 
 Package sets:
   normal         install the complete set

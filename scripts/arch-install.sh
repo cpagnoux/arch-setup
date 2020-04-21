@@ -11,7 +11,7 @@ readonly keymap=us
 
 usage() {
 	cat <<EOF
-Usage: $0 COMMAND
+Usage: $0 <command>
 
 Commands:
   pre-chroot   execute pre-chroot installation process
