@@ -42,6 +42,7 @@ readonly cli_tools=(
 	imagemagick
 	lm_sensors
 	lsb-release
+	nmap
 	openssh
 	pacman-contrib
 	pkgfile
