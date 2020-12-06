@@ -127,6 +127,7 @@ readonly system=(
 	virtualbox
 	virtualbox-host-modules-arch
 	virtualbox-guest-iso
+	wireguard-tools
 )
 
 readonly wine=(
