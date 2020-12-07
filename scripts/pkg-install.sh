@@ -72,6 +72,8 @@ readonly accessories=(
 )
 
 readonly development=(
+	ansible
+	sshpass
 	cmake
 	docker
 	docker-compose
