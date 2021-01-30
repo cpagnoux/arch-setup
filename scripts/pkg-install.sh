@@ -81,6 +81,7 @@ readonly development=(
 	git
 	mariadb-clients
 	php
+	php-intl
 	php-sqlite
 	xdebug
 	composer
