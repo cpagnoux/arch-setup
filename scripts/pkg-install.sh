@@ -86,6 +86,7 @@ readonly development=(
 	xdebug
 	composer
 	plantuml
+	python-pip
 	sqlite
 	vim
 	fzf
