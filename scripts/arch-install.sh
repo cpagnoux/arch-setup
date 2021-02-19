@@ -3,11 +3,11 @@
 # Script automating installation of Arch Linux.
 # Written according to my needs.
 
-readonly region=Europe
-readonly city=Paris
+readonly region='Europe'
+readonly city='Paris'
 readonly locale='fr_FR.UTF-8 UTF-8'
-readonly lang=en_US.UTF-8
-readonly keymap=us
+readonly lang='en_US.UTF-8'
+readonly keymap='us'
 
 usage() {
   cat <<EOF
@@ -44,7 +44,7 @@ prechrt_prepare() {
   lsblk
   echo "Partition for /boot (leave blank if none):"
   read boot
-  while [[ -n "$boot" || "$boot_mode" = 2 ]] && [[ ! -b "$boot" ]]; do
+  while [[ -n "$boot" || "$boot_mode" == 2 ]] && [[ ! -b "$boot" ]]; do
     read boot
   done
 
@@ -80,7 +80,7 @@ prechrt_pre_install() {
 
   # Format the partitions
   echo "Formatting partitions..."
-  if [[ -n "$boot" && "$boot_mode" = 1 ]]; then
+  if [[ -n "$boot" && "$boot_mode" == 1 ]]; then
     mkfs.ext4 "$boot"
   fi
   if [[ -n "$swap" ]]; then
@@ -118,12 +118,12 @@ prechrt_install() {
 prechrt_configure() {
   # Fstab
   echo "Generating fstab..."
-  genfstab -U /mnt >>/mnt/etc/fstab
+  genfstab -U /mnt >> /mnt/etc/fstab
 
   # Chroot
   echo "Changing root into the new system..."
   cp "$0" /mnt/
-  echo "$boot_mode" >/mnt/env.boot_mode
+  echo "$boot_mode" > /mnt/env.boot_mode
   arch-chroot /mnt
 }
 
@@ -142,7 +142,7 @@ prechrt_configure() {
 #   encryption
 ########################################
 postchrt_prepare() {
-  boot_mode="$(<env.boot_mode)"
+  boot_mode="$(< env.boot_mode)"
 
   echo "Define hostname:"
   read hostname
@@ -204,16 +204,16 @@ postchrt_configure() {
   sed -i 's/^#\(en_US\.UTF-8 UTF-8\)/\1/' /etc/locale.gen
   sed -i "s/^#\($locale\)/\1/" /etc/locale.gen
   locale-gen
-  echo "LANG=$lang" >/etc/locale.conf
-  echo "KEYMAP=$keymap" >/etc/vconsole.conf
+  echo "LANG=$lang" > /etc/locale.conf
+  echo "KEYMAP=$keymap" > /etc/vconsole.conf
 
   # Hostname
   echo "Setting hostname..."
-  echo "$hostname" >/etc/hostname
-  echo "" >>/etc/hosts
-  echo -e "127.0.0.1\tlocalhost" >>/etc/hosts
-  echo -e "::1\t\tlocalhost" >>/etc/hosts
-  echo -e "127.0.1.1\t$hostname.localdomain\t$hostname" >>/etc/hosts
+  echo "$hostname" > /etc/hostname
+  echo "" >> /etc/hosts
+  echo -e "127.0.0.1\tlocalhost" >> /etc/hosts
+  echo -e "::1\t\tlocalhost" >> /etc/hosts
+  echo -e "127.0.1.1\t$hostname.localdomain\t$hostname" >> /etc/hosts
 
   # Network configuration
   echo "Configuring network..."
@@ -296,13 +296,13 @@ postchrt_configure() {
     local var_uuid="$(get_uuid /var)"
     if [[ -n "$var_uuid" ]]; then
       echo "cryptvar       UUID=$var_uuid    none                    luks,discard" \
-        >>/etc/crypttab
+        >> /etc/crypttab
     fi
 
     local home_uuid="$(get_uuid /home)"
     if [[ -n "$home_uuid" ]]; then
       echo "crypthome      UUID=$home_uuid    none                    luks,discard" \
-        >>/etc/crypttab
+        >> /etc/crypttab
     fi
     ;;
   n)
@@ -343,7 +343,7 @@ apply_tweaks() {
     }
     { print }
     { prev = $0 }
-  ' /etc/pacman.conf >/tmp/pacman.conf
+  ' /etc/pacman.conf > /tmp/pacman.conf
   mv /tmp/pacman.conf /etc/pacman.conf
 
   echo "Enabling fancy pacman output..."

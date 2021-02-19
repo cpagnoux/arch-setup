@@ -9,10 +9,10 @@ done
 
 case "$choice" in
 1)
-  model=pc104
+  model='pc104'
   ;;
 2)
-  model=pc105
+  model='pc105'
   ;;
 esac
 
