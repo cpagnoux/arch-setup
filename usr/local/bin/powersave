@@ -7,26 +7,26 @@ readonly backlight_dir=/sys/class/backlight/intel_backlight
 readonly max_brightness="$(<"$backlight_dir/max_brightness")"
 
 powersave_on() {
-	cpupower frequency-set -g powersave
+  cpupower frequency-set -g powersave
 
-	local brightness=$((max_brightness / 2))
-	echo "$brightness" >"$backlight_dir/brightness"
+  local brightness=$((max_brightness / 2))
+  echo "$brightness" >"$backlight_dir/brightness"
 }
 
 powersave_off() {
-	cpupower frequency-set -g performance
+  cpupower frequency-set -g performance
 
-	echo "$max_brightness" >"$backlight_dir/brightness"
+  echo "$max_brightness" >"$backlight_dir/brightness"
 }
 
 case "$1" in
 true)
-	powersave_on
-	;;
+  powersave_on
+  ;;
 false)
-	powersave_off
-	;;
+  powersave_off
+  ;;
 *)
-	exit 1
-	;;
+  exit 1
+  ;;
 esac
