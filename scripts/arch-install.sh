@@ -218,13 +218,13 @@ postchrt_configure() {
   # Network configuration
   echo "Configuring network..."
   case "$connection_type" in
-  1)
-    systemctl enable "dhcpcd@$interface.service"
-    ;;
-  2)
-    pacman -S --noconfirm wpa_supplicant dialog
-    systemctl enable "netctl-auto@$interface.service"
-    ;;
+    1)
+      systemctl enable "dhcpcd@$interface.service"
+      ;;
+    2)
+      pacman -S --noconfirm wpa_supplicant dialog
+      systemctl enable "netctl-auto@$interface.service"
+      ;;
   esac
 
   # Root password
@@ -244,70 +244,70 @@ postchrt_configure() {
   # Microcode updates
   echo "Installing required package for microcode updates..."
   case "$cpu_manufacturer" in
-  1)
-    pacman -S --noconfirm intel-ucode
-    ;;
-  2)
-    pacman -S --noconfirm amd-ucode
-    ;;
+    1)
+      pacman -S --noconfirm intel-ucode
+      ;;
+    2)
+      pacman -S --noconfirm amd-ucode
+      ;;
   esac
 
   # SSD trimming
   case "$ssd" in
-  y)
-    echo "An SSD is present in the system, enabling fstrim timer..."
-    systemctl enable fstrim.timer
-    ;;
-  n)
-    echo "No SSD is present in the system, skipping..."
-    ;;
+    y)
+      echo "An SSD is present in the system, enabling fstrim timer..."
+      systemctl enable fstrim.timer
+      ;;
+    n)
+      echo "No SSD is present in the system, skipping..."
+      ;;
   esac
 
   # Boot loader
   echo "Installing boot loader..."
   case "$boot_mode" in
-  1)
-    pacman -S --noconfirm grub os-prober
-    grub-install --target=i386-pc /dev/sda
-    ;;
-  2)
-    pacman -S --noconfirm grub efibootmgr os-prober
-    grub-install \
-      --target=x86_64-efi \
-      --efi-directory=/boot \
-      --bootloader-id=grub
-    ;;
+    1)
+      pacman -S --noconfirm grub os-prober
+      grub-install --target=i386-pc /dev/sda
+      ;;
+    2)
+      pacman -S --noconfirm grub efibootmgr os-prober
+      grub-install \
+        --target=x86_64-efi \
+        --efi-directory=/boot \
+        --bootloader-id=grub
+      ;;
   esac
 
   # dm-crypt
   case "$encryption" in
-  y)
-    echo "System is encrypted, configuring mkinitcpio, boot loader and crypttab..."
+    y)
+      echo "System is encrypted, configuring mkinitcpio, boot loader and crypttab..."
 
-    sed -i 's/^\(HOOKS=.*\)udev/\1systemd/' /etc/mkinitcpio.conf
-    sed -i 's/^\(HOOKS=.*\)\(filesystems\)/\1sd-encrypt \2/' \
-      /etc/mkinitcpio.conf
-    mkinitcpio -P
+      sed -i 's/^\(HOOKS=.*\)udev/\1systemd/' /etc/mkinitcpio.conf
+      sed -i 's/^\(HOOKS=.*\)\(filesystems\)/\1sd-encrypt \2/' \
+        /etc/mkinitcpio.conf
+      mkinitcpio -P
 
-    local root_uuid="$(get_uuid /)"
-    sed -i "s/^\(GRUB_CMDLINE_LINUX=\"\)/\1rd.luks.name=$root_uuid=cryptroot rd.luks.options=discard root=\/dev\/mapper\/cryptroot/" \
-      /etc/default/grub
+      local root_uuid="$(get_uuid /)"
+      sed -i "s/^\(GRUB_CMDLINE_LINUX=\"\)/\1rd.luks.name=$root_uuid=cryptroot rd.luks.options=discard root=\/dev\/mapper\/cryptroot/" \
+        /etc/default/grub
 
-    local var_uuid="$(get_uuid /var)"
-    if [[ -n "$var_uuid" ]]; then
-      echo "cryptvar       UUID=$var_uuid    none                    luks,discard" \
-        >> /etc/crypttab
-    fi
+      local var_uuid="$(get_uuid /var)"
+      if [[ -n "$var_uuid" ]]; then
+        echo "cryptvar       UUID=$var_uuid    none                    luks,discard" \
+          >> /etc/crypttab
+      fi
 
-    local home_uuid="$(get_uuid /home)"
-    if [[ -n "$home_uuid" ]]; then
-      echo "crypthome      UUID=$home_uuid    none                    luks,discard" \
-        >> /etc/crypttab
-    fi
-    ;;
-  n)
-    echo "System is not encrypted, skipping..."
-    ;;
+      local home_uuid="$(get_uuid /home)"
+      if [[ -n "$home_uuid" ]]; then
+        echo "crypthome      UUID=$home_uuid    none                    luks,discard" \
+          >> /etc/crypttab
+      fi
+      ;;
+    n)
+      echo "System is not encrypted, skipping..."
+      ;;
   esac
 
   # Boot loader - final installment
@@ -357,20 +357,20 @@ EOF
 }
 
 case "$1" in
-pre-chroot)
-  prechrt_prepare
-  prechrt_pre_install
-  prechrt_install
-  prechrt_configure
-  ;;
-post-chroot)
-  postchrt_prepare
-  postchrt_configure
-  ;;
-tweaks)
-  apply_tweaks
-  ;;
-*)
-  usage
-  ;;
+  pre-chroot)
+    prechrt_prepare
+    prechrt_pre_install
+    prechrt_install
+    prechrt_configure
+    ;;
+  post-chroot)
+    postchrt_prepare
+    postchrt_configure
+    ;;
+  tweaks)
+    apply_tweaks
+    ;;
+  *)
+    usage
+    ;;
 esac

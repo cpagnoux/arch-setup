@@ -267,22 +267,22 @@ driver_ati_install() {
 }
 
 case "$1" in
-normal)
-  normal_install
-  ;;
-minimal)
-  minimal_install
-  ;;
-driver-intel)
-  driver_intel_install
-  ;;
-driver-nvidia)
-  driver_nvidia_install
-  ;;
-driver-ati)
-  driver_ati_install
-  ;;
-*)
-  usage
-  ;;
+  normal)
+    normal_install
+    ;;
+  minimal)
+    minimal_install
+    ;;
+  driver-intel)
+    driver_intel_install
+    ;;
+  driver-nvidia)
+    driver_nvidia_install
+    ;;
+  driver-ati)
+    driver_ati_install
+    ;;
+  *)
+    usage
+    ;;
 esac

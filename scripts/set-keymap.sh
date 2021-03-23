@@ -8,12 +8,12 @@ while [[ "$choice" != 1 && "$choice" != 2 ]]; do
 done
 
 case "$choice" in
-1)
-  model='pc104'
-  ;;
-2)
-  model='pc105'
-  ;;
+  1)
+    model='pc104'
+    ;;
+  2)
+    model='pc105'
+    ;;
 esac
 
 localectl set-x11-keymap us "$model" altgr-intl terminate:ctrl_alt_bksp

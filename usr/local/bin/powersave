@@ -20,13 +20,13 @@ powersave_off() {
 }
 
 case "$1" in
-true)
-  powersave_on
-  ;;
-false)
-  powersave_off
-  ;;
-*)
-  exit 1
-  ;;
+  true)
+    powersave_on
+    ;;
+  false)
+    powersave_off
+    ;;
+  *)
+    exit 1
+    ;;
 esac
