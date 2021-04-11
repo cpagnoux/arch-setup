@@ -73,6 +73,7 @@ readonly accessories=(
 
 readonly development=(
   ansible
+  python-netaddr
   sshpass
   cmake
   docker
