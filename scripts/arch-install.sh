@@ -112,7 +112,7 @@ prechrt_pre_install() {
 prechrt_install() {
   # Install the base packages
   echo "Installing base packages..."
-  pacstrap /mnt base base-devel
+  pacstrap /mnt base linux linux-firmware vi man-db man-pages texinfo sudo
 }
 
 prechrt_configure() {
@@ -217,12 +217,12 @@ postchrt_configure() {
 
   # Network configuration
   echo "Configuring network..."
+  pacman -S --noconfirm dhcpcd netctl wpa_supplicant dialog
   case "$connection_type" in
     1)
       systemctl enable "dhcpcd@$interface.service"
       ;;
     2)
-      pacman -S --noconfirm wpa_supplicant dialog
       systemctl enable "netctl-auto@$interface.service"
       ;;
   esac
