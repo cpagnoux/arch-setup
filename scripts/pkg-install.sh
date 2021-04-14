@@ -107,7 +107,6 @@ readonly graphics=(
 
 readonly internet=(
   chromium
-  pepper-flash
   filezilla
   hexchat
   transmission-gtk
