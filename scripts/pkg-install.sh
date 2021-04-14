@@ -242,6 +242,12 @@ normal_install() {
     "${office[@]}" \
     "${system[@]}" \
     "${wine[@]}"
+
+  systemctl enable \
+    lightdm.service \
+    smartd.service \
+    docker.service \
+    bluetooth.service
 }
 
 minimal_install() {
@@ -253,6 +259,11 @@ minimal_install() {
     "${development[@]}" \
     "${internet[0]}" \
     "${internet[1]}"
+
+  systemctl enable \
+    lightdm.service \
+    smartd.service \
+    docker.service
 }
 
 driver_intel_install() {
