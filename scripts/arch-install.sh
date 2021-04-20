@@ -1,13 +1,38 @@
 #!/bin/bash
 #
 # Script automating installation of Arch Linux.
-# Written according to my needs.
 
+# Boot mode
+readonly boot_mode='' # bios | uefi
+
+# Partitions
+readonly boot_part='' # optional if boot_mode is bios
+readonly swap_part='' # optional
+readonly root_part=''
+readonly var_part='' # optional
+readonly home_part='' # optional
+
+# Time zone
 readonly region='Europe'
 readonly city='Paris'
+
+# Localization
 readonly locale='fr_FR.UTF-8 UTF-8'
 readonly lang='en_US.UTF-8'
 readonly keymap='us'
+
+# Network
+readonly hostname=''
+readonly connection_type='' # wired | wireless
+readonly interface=''
+
+# User
+readonly user_name=''
+
+# Misc
+readonly cpu_manufacturer='' # intel | amd
+readonly ssd='' # yes | no
+readonly encryption='' # yes | no
 
 usage() {
   cat <<EOF
@@ -24,55 +49,6 @@ EOF
 # PRE-CHROOT
 ################################################################################
 
-########################################
-# Set the following global variables:
-#   boot_mode
-#   boot
-#   swap
-#   root
-#   var
-#   home
-########################################
-prechrt_prepare() {
-  echo "Boot mode:"
-  echo "1) BIOS  2) UEFI"
-  read boot_mode
-  while [[ "$boot_mode" != 1 && "$boot_mode" != 2 ]]; do
-    read boot_mode
-  done
-
-  lsblk
-  echo "Partition for /boot (leave blank if none):"
-  read boot
-  while [[ -n "$boot" || "$boot_mode" == 2 ]] && [[ ! -b "$boot" ]]; do
-    read boot
-  done
-
-  echo "Partition for [SWAP] (leave blank if none):"
-  read swap
-  while [[ -n "$swap" && ! -b "$swap" ]]; do
-    read swap
-  done
-
-  echo "Partition for /:"
-  read root
-  while [[ ! -b "$root" ]]; do
-    read root
-  done
-
-  echo "Partition for /var (leave blank if none):"
-  read var
-  while [[ -n "$var" && ! -b "$var" ]]; do
-    read var
-  done
-
-  echo "Partition for /home (leave blank if none):"
-  read home
-  while [[ -n "$home" && ! -b "$home" ]]; do
-    read home
-  done
-}
-
 prechrt_pre_install() {
   # Update the system clock
   echo "Updating system clock..."
@@ -80,32 +56,32 @@ prechrt_pre_install() {
 
   # Format the partitions
   echo "Formatting partitions..."
-  if [[ -n "$boot" && "$boot_mode" == 1 ]]; then
-    mkfs.ext4 "$boot"
+  if [[ -n "$boot_part" && "$boot_mode" == 'bios' ]]; then
+    mkfs.ext4 "$boot_part"
   fi
-  if [[ -n "$swap" ]]; then
-    mkswap "$swap"
-    swapon "$swap"
+  if [[ -n "$swap_part" ]]; then
+    mkswap "$swap_part"
+    swapon "$swap_part"
   fi
-  mkfs.ext4 "$root"
-  if [[ -n "$var" ]]; then
-    mkfs.ext4 "$var"
+  mkfs.ext4 "$root_part"
+  if [[ -n "$var_part" ]]; then
+    mkfs.ext4 "$var_part"
   fi
 
   # Mount the file systems
   echo "Mounting file systems..."
-  mount "$root" /mnt
-  if [[ -n "$boot" ]]; then
+  mount "$root_part" /mnt
+  if [[ -n "$boot_part" ]]; then
     mkdir /mnt/boot
-    mount "$boot" /mnt/boot
+    mount "$boot_part" /mnt/boot
   fi
-  if [[ -n "$var" ]]; then
+  if [[ -n "$var_part" ]]; then
     mkdir /mnt/var
-    mount "$var" /mnt/var
+    mount "$var_part" /mnt/var
   fi
-  if [[ -n "$home" ]]; then
+  if [[ -n "$home_part" ]]; then
     mkdir /mnt/home
-    mount "$home" /mnt/home
+    mount "$home_part" /mnt/home
   fi
 }
 
@@ -123,66 +99,12 @@ prechrt_configure() {
   # Chroot
   echo "Changing root into the new system..."
   cp "$0" /mnt/
-  echo "$boot_mode" > /mnt/env.boot_mode
   arch-chroot /mnt
 }
 
 ################################################################################
 # POST-CHROOT
 ################################################################################
-
-########################################
-# Set the following global variables:
-#   boot_mode
-#   hostname
-#   connection_type
-#   interface
-#   cpu_manufacturer
-#   ssd
-#   encryption
-########################################
-postchrt_prepare() {
-  boot_mode="$(< env.boot_mode)"
-
-  echo "Define hostname:"
-  read hostname
-  while [[ -z "$hostname" ]]; do
-    read hostname
-  done
-
-  echo "Which type of connection do you use?"
-  echo "1) Wired  2) Wireless"
-  read connection_type
-  while [[ "$connection_type" != 1 && "$connection_type" != 2 ]]; do
-    read connection_type
-  done
-
-  ip link
-  echo "Enter the name of the network interface you want to use:"
-  read interface
-  while [[ -z "$(grep "^$interface:" /proc/net/dev)" ]]; do
-    read interface
-  done
-
-  echo "Which manufacturer is your CPU from?"
-  echo "1) Intel  2) AMD"
-  read cpu_manufacturer
-  while [[ "$cpu_manufacturer" != 1 && "$cpu_manufacturer" != 2 ]]; do
-    read cpu_manufacturer
-  done
-
-  echo "Are you using an SSD? [y/n]"
-  read ssd
-  while [[ "$ssd" != y && "$ssd" != n ]]; do
-    read ssd
-  done
-
-  echo "Is your system encrypted? [y/n]"
-  read encryption
-  while [[ "$encryption" != y && "$encryption" != n ]]; do
-    read encryption
-  done
-}
 
 get_uuid() {
   local mountpoint="$1"
@@ -219,10 +141,10 @@ postchrt_configure() {
   echo "Configuring network..."
   pacman -S --noconfirm dhcpcd netctl wpa_supplicant dialog
   case "$connection_type" in
-    1)
+    wired)
       systemctl enable "dhcpcd@$interface.service"
       ;;
-    2)
+    wireless)
       systemctl enable "netctl-auto@$interface.service"
       ;;
   esac
@@ -232,33 +154,28 @@ postchrt_configure() {
   passwd
 
   # Create a new user
-  echo "Enter login for new user:"
-  read login
-  while [[ -z "$login" ]]; do
-    read login
-  done
-
-  useradd -m -G wheel -s /bin/bash "$login"
-  passwd "$login"
+  useradd -m -G wheel -s /bin/bash "$user_name"
+  echo "Setting password for $user_name..."
+  passwd "$user_name"
 
   # Microcode updates
   echo "Installing required package for microcode updates..."
   case "$cpu_manufacturer" in
-    1)
+    intel)
       pacman -S --noconfirm intel-ucode
       ;;
-    2)
+    amd)
       pacman -S --noconfirm amd-ucode
       ;;
   esac
 
   # SSD trimming
   case "$ssd" in
-    y)
+    yes)
       echo "An SSD is present in the system, enabling fstrim timer..."
       systemctl enable fstrim.timer
       ;;
-    n)
+    no)
       echo "No SSD is present in the system, skipping..."
       ;;
   esac
@@ -266,11 +183,11 @@ postchrt_configure() {
   # Boot loader
   echo "Installing boot loader..."
   case "$boot_mode" in
-    1)
+    bios)
       pacman -S --noconfirm grub os-prober
       grub-install --target=i386-pc /dev/sda
       ;;
-    2)
+    uefi)
       pacman -S --noconfirm grub efibootmgr os-prober
       grub-install \
         --target=x86_64-efi \
@@ -281,7 +198,7 @@ postchrt_configure() {
 
   # dm-crypt
   case "$encryption" in
-    y)
+    yes)
       echo "System is encrypted, configuring mkinitcpio, boot loader and crypttab..."
 
       sed -i 's/^\(HOOKS=.*\)udev/\1systemd/' /etc/mkinitcpio.conf
@@ -305,16 +222,13 @@ postchrt_configure() {
           >> /etc/crypttab
       fi
       ;;
-    n)
+    no)
       echo "System is not encrypted, skipping..."
       ;;
   esac
 
   # Boot loader - final installment
   grub-mkconfig -o /boot/grub/grub.cfg
-
-  # Cleaning
-  rm -f env.boot_mode
 
   cat <<EOF
 Installation complete!
