@@ -34,6 +34,48 @@ readonly cpu_manufacturer='' # intel | amd
 readonly ssd='' # yes | no
 readonly encryption='' # yes | no
 
+check_vars() {
+  case "$boot_mode" in
+    bios | uefi) ;;
+    *)
+      echo "Invalid value for boot_mode"
+      exit
+      ;;
+  esac
+
+  case "$connection_type" in
+    wired | wireless) ;;
+    *)
+      echo "Invalid value for connection_type"
+      exit
+      ;;
+  esac
+
+  case "$cpu_manufacturer" in
+    intel | amd) ;;
+    *)
+      echo "Invalid value for cpu_manufacturer"
+      exit
+      ;;
+  esac
+
+  case "$ssd" in
+    yes | no) ;;
+    *)
+      echo "Invalid value for ssd"
+      exit
+      ;;
+  esac
+
+  case "$encryption" in
+    yes | no) ;;
+    *)
+      echo "Invalid value for encryption"
+      exit
+      ;;
+  esac
+}
+
 ################################################################################
 # PRE-CHROOT
 ################################################################################
@@ -251,6 +293,8 @@ Installation complete!
 You can now reboot into your newly installed system.
 EOF
 }
+
+check_vars
 
 case "$1" in
   post-chroot)
