@@ -34,17 +34,6 @@ readonly cpu_manufacturer='' # intel | amd
 readonly ssd='' # yes | no
 readonly encryption='' # yes | no
 
-usage() {
-  cat <<EOF
-Usage: $0 <command>
-
-Commands:
-  pre-chroot   execute pre-chroot installation process
-  post-chroot  execute post-chroot installation process
-  tweaks       apply optional tweaks
-EOF
-}
-
 ################################################################################
 # PRE-CHROOT
 ################################################################################
@@ -98,8 +87,9 @@ prechrt_configure() {
 
   # Chroot
   echo "Changing root into the new system..."
-  cp "$0" /mnt/
-  arch-chroot /mnt
+  cp "$0" /mnt/root/
+  arch-chroot /mnt sh "/root/$0" post-chroot
+  rm -f "/mnt/root/$0"
 }
 
 ################################################################################
@@ -229,17 +219,7 @@ postchrt_configure() {
 
   # Boot loader - final installment
   grub-mkconfig -o /boot/grub/grub.cfg
-
-  cat <<EOF
-Installation complete!
-You can now apply the optional system tweaks or simply reboot into your newly
-installed system.
-EOF
 }
-
-################################################################################
-# TWEAKS
-################################################################################
 
 apply_tweaks() {
   echo "Configuring sudoers..."
@@ -263,28 +243,24 @@ apply_tweaks() {
   echo "Enabling fancy pacman output..."
   sed -i 's/^#\(Color\)/\1/' /etc/pacman.conf
   sed -i '/^# Misc options/a \ILoveCandy' /etc/pacman.conf
+}
 
+end_message() {
   cat <<EOF
-Tweaks applied successfully!
+Installation complete!
 You can now reboot into your newly installed system.
 EOF
 }
 
 case "$1" in
-  pre-chroot)
-    prechrt_prepare
+  post-chroot)
+    postchrt_configure
+    apply_tweaks
+    end_message
+    ;;
+  *)
     prechrt_pre_install
     prechrt_install
     prechrt_configure
-    ;;
-  post-chroot)
-    postchrt_prepare
-    postchrt_configure
-    ;;
-  tweaks)
-    apply_tweaks
-    ;;
-  *)
-    usage
     ;;
 esac
