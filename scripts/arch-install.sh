@@ -2,11 +2,8 @@
 #
 # Script automating installation of Arch Linux.
 
-# Boot mode
-readonly boot_mode='' # bios | uefi
-
 # Partitions
-readonly boot_part='' # optional if boot_mode is bios
+readonly boot_part=''
 readonly swap_part='' # optional
 readonly root_part=''
 readonly var_part='' # optional
@@ -35,14 +32,6 @@ readonly ssd='' # yes | no
 readonly encryption='' # yes | no
 
 check_vars() {
-  case "$boot_mode" in
-    bios | uefi) ;;
-    *)
-      echo "Invalid value for boot_mode"
-      exit
-      ;;
-  esac
-
   case "$connection_type" in
     wired | wireless) ;;
     *)
@@ -87,9 +76,6 @@ prechrt_pre_install() {
 
   # Format the partitions
   echo "Formatting partitions..."
-  if [[ -n "$boot_part" && "$boot_mode" == 'bios' ]]; then
-    mkfs.ext4 "$boot_part"
-  fi
   if [[ -n "$swap_part" ]]; then
     mkswap "$swap_part"
     swapon "$swap_part"
@@ -214,19 +200,11 @@ postchrt_configure() {
 
   # Boot loader
   echo "Installing boot loader..."
-  case "$boot_mode" in
-    bios)
-      pacman -S --noconfirm grub os-prober
-      grub-install --target=i386-pc /dev/sda
-      ;;
-    uefi)
-      pacman -S --noconfirm grub efibootmgr os-prober
-      grub-install \
-        --target=x86_64-efi \
-        --efi-directory=/boot \
-        --bootloader-id=grub
-      ;;
-  esac
+  pacman -S --noconfirm grub efibootmgr os-prober
+  grub-install \
+    --target=x86_64-efi \
+    --efi-directory=/boot \
+    --bootloader-id=grub
 
   # dm-crypt
   case "$encryption" in
