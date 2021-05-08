@@ -80,7 +80,6 @@ readonly development=(
   docker-compose
   gdb
   git
-  make
   mariadb-clients
   php
   php-intl

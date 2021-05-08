@@ -105,7 +105,7 @@ prechrt_pre_install() {
 prechrt_install() {
   # Install the base packages
   echo "Installing base packages..."
-  pacstrap /mnt base linux linux-firmware vi man-db man-pages texinfo sudo
+  pacstrap /mnt base linux linux-firmware base-devel vi man-db man-pages
 }
 
 prechrt_configure() {
