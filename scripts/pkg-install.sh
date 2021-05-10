@@ -187,30 +187,36 @@ readonly wine=(
 readonly driver_intel=(
   mesa
   lib32-mesa
-  libva-intel-driver
-  lib32-libva-intel-driver
   vulkan-icd-loader
   lib32-vulkan-icd-loader
   vulkan-intel
   lib32-vulkan-intel
+  libva-intel-driver
+  lib32-libva-intel-driver
 )
 
 readonly driver_nvidia=(
   linux-headers
   nvidia-dkms
-  nvidia-utils
-  lib32-nvidia-utils
   vulkan-icd-loader
   lib32-vulkan-icd-loader
+  nvidia-utils
+  lib32-nvidia-utils
   nvidia-settings
 )
 
-readonly driver_ati=(
+readonly driver_amd=(
   mesa
   lib32-mesa
-  xf86-video-ati
+  xf86-video-amdgpu
+  vulkan-icd-loader
+  lib32-vulkan-icd-loader
+  amdvlk
+  lib32-amdvlk
   libva-mesa-driver
   lib32-libva-mesa-driver
+  mesa-vdpau
+  lib32-mesa-vdpau
 )
 
 usage() {
@@ -222,7 +228,7 @@ Package sets:
   minimal        install a minimalist set
   driver-intel   install the open source Intel driver
   driver-nvidia  install the proprietary NVIDIA driver
-  driver-ati     install the open source ATI driver
+  driver-amd     install the open source AMDGPU driver
 EOF
 }
 
@@ -273,8 +279,8 @@ driver_nvidia_install() {
   pacman -S "${driver_nvidia[@]}"
 }
 
-driver_ati_install() {
-  pacman -S "${driver_ati[@]}"
+driver_amd_install() {
+  pacman -S "${driver_amd[@]}"
 }
 
 case "$1" in
@@ -290,8 +296,8 @@ case "$1" in
   driver-nvidia)
     driver_nvidia_install
     ;;
-  driver-ati)
-    driver_ati_install
+  driver-amd)
+    driver_amd_install
     ;;
   *)
     usage
