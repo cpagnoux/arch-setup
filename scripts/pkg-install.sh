@@ -80,6 +80,9 @@ readonly development=(
   docker-compose
   gdb
   git
+  kubectl
+  helm
+  k9s
   mariadb-clients
   php
   php-intl
