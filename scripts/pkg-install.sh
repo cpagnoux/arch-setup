@@ -111,6 +111,7 @@ readonly internet=(
   chromium
   filezilla
   hexchat
+  signal-desktop
   transmission-gtk
 )
 
