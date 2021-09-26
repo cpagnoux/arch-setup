@@ -83,6 +83,7 @@ readonly development=(
   kubectl
   helm
   k9s
+  kubectx
   mariadb-clients
   php
   php-intl
