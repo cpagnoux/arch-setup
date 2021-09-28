@@ -39,6 +39,7 @@ readonly cli_tools=(
   cpupower
   fuseiso
   hdparm
+  htop
   imagemagick
   lm_sensors
   lsb-release
