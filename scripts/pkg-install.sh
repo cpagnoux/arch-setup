@@ -93,6 +93,7 @@ readonly development=(
   composer
   plantuml
   python-pip
+  python-pipenv
   sqlite
   vim
   fzf
