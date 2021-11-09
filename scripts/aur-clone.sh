@@ -5,6 +5,7 @@ readonly packages=(
   dropbox
   nerd-fonts-hack
   postman-bin
+  rancher-k3d-bin
   robo3t-bin
   slack-desktop
   spotify
