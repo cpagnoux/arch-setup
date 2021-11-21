@@ -74,6 +74,7 @@ readonly accessories=(
 
 readonly development=(
   ansible
+  ansible-lint
   python-netaddr
   sshpass
   cmake
