@@ -96,6 +96,7 @@ readonly development=(
   python-pip
   python-pipenv
   sqlite
+  strace
   vim
   fzf
   ctags
