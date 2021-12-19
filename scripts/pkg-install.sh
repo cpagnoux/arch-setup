@@ -93,6 +93,7 @@ readonly development=(
   xdebug
   composer
   plantuml
+  pyenv
   python-pip
   python-pipenv
   sqlite
