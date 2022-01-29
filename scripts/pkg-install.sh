@@ -137,6 +137,7 @@ readonly office=(
 readonly system=(
   bluez
   bluez-utils
+  blueman
   cups
   gparted
   dosfstools
