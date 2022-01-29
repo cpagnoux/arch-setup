@@ -122,6 +122,10 @@ readonly internet=(
 )
 
 readonly multimedia=(
+  pipewire
+  lib32-pipewire
+  wireplumber
+  pipewire-alsa
   vlc
 )
 
