@@ -41,6 +41,7 @@ readonly cli_tools=(
   hdparm
   htop
   imagemagick
+  jq
   lm_sensors
   lsb-release
   nmap
