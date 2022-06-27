@@ -244,7 +244,7 @@ postchrt_configure() {
 apply_tweaks() {
   echo "Configuring sudoers..."
   cp /etc/sudoers /etc/sudoers.bak
-  sed -i 's/^# \(%wheel ALL=(ALL) ALL\)/\1/' /etc/sudoers
+  sed -i 's/^# \(%wheel ALL=(ALL:ALL) ALL\)/\1/' /etc/sudoers
 
   echo "Enabling multilib repository..."
   cp /etc/pacman.conf /etc/pacman.conf.bak
