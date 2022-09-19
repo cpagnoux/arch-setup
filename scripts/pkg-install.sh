@@ -88,6 +88,7 @@ readonly development=(
   k9s
   kubectx
   mariadb-clients
+  minio-client
   php
   php-intl
   php-sqlite
