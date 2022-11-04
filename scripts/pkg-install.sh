@@ -31,6 +31,7 @@ readonly customization=(
   ttf-anonymous-pro
   ttf-font-awesome
   ttf-hack
+  ttf-hack-nerd
   ttf-inconsolata
   ttf-roboto
 )
