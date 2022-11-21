@@ -1,6 +1,7 @@
 #!/bin/bash
 
 readonly packages=(
+  brave-bin
   chromium-widevine
   dropbox
   postman-bin
