@@ -130,7 +130,7 @@ readonly multimedia=(
   pipewire
   lib32-pipewire
   wireplumber
-  pipewire-alsa
+  pipewire-pulse
   vlc
 )
 
