@@ -96,6 +96,7 @@ readonly development=(
   xdebug
   composer
   plantuml
+  graphviz
   postgresql-libs
   pyenv
   python-pip
