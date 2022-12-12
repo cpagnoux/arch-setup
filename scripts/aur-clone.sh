@@ -2,7 +2,6 @@
 
 readonly packages=(
   brave-bin
-  chromium-widevine
   dropbox
   postman-bin
   rancher-k3d-bin
