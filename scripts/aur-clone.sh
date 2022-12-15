@@ -8,6 +8,7 @@ readonly packages=(
   robo3t-bin
   slack-desktop
   spotify
+  terraform-docs-bin
 )
 
 get_url() {
