@@ -116,6 +116,7 @@ readonly games=(
 readonly graphics=(
   shotwell
   simple-scan
+  ipp-usb
 )
 
 readonly internet=(
