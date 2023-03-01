@@ -101,6 +101,7 @@ readonly development=(
   pyenv
   python-pip
   python-pipenv
+  shfmt
   sqlite
   strace
   vim
