@@ -80,6 +80,7 @@ readonly development=(
   python-netaddr
   sshpass
   cmake
+  dbeaver
   docker
   docker-compose
   gdb
