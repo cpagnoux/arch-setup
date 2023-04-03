@@ -8,6 +8,7 @@ readonly packages=(
   robo3t-bin
   slack-desktop
   spotify
+  stremio
   terraform-docs-bin
 )
 
