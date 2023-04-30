@@ -3,6 +3,7 @@
 readonly packages=(
   brave-bin
   dropbox
+  lazydocker-bin
   postman-bin
   rancher-k3d-bin
   robo3t-bin
