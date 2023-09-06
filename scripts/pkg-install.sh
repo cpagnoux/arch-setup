@@ -37,6 +37,7 @@ readonly customization=(
 )
 
 readonly cli_tools=(
+  cmatrix
   cpupower
   fuseiso
   hdparm
