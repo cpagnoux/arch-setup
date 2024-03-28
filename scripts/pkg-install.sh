@@ -39,6 +39,7 @@ readonly customization=(
 readonly cli_tools=(
   cmatrix
   cpupower
+  csvlens
   fuseiso
   hdparm
   htop
