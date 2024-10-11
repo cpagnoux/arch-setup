@@ -101,6 +101,7 @@ readonly development=(
   plantuml
   graphviz
   postgresql-libs
+  pre-commit
   pyenv
   python-pip
   python-pipenv
