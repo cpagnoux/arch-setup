@@ -140,6 +140,7 @@ readonly multimedia=(
 )
 
 readonly office=(
+  obsidian
   pandoc
   texlive-most
 )
