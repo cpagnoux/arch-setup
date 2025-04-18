@@ -6,7 +6,7 @@
 readonly boot_part=''
 readonly swap_part='' # optional
 readonly root_part=''
-readonly var_part='' # optional
+readonly var_part=''  # optional
 readonly home_part='' # optional
 
 # Time zone
@@ -28,8 +28,8 @@ readonly user_name=''
 
 # Misc
 readonly cpu_manufacturer='' # intel | amd
-readonly ssd='' # yes | no
-readonly encryption='' # yes | no
+readonly ssd=''              # yes | no
+readonly encryption=''       # yes | no
 
 check_vars() {
   case "$connection_type" in
@@ -266,7 +266,7 @@ apply_tweaks() {
 }
 
 end_message() {
-  cat <<EOF
+  cat << EOF
 Installation complete!
 You can now reboot into your newly installed system.
 EOF

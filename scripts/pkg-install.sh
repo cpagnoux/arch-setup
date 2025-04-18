@@ -246,7 +246,7 @@ readonly driver_amd=(
 )
 
 usage() {
-  cat <<EOF
+  cat << EOF
 Usage: $0 <package-set>
 
 Package sets:
