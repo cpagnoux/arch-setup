@@ -4,6 +4,7 @@ readonly gui=(
   xorg
   i3
   dmenu
+  snixembed
   lightdm
   lightdm-gtk-greeter
   numlockx
