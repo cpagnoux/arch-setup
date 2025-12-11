@@ -60,6 +60,7 @@ readonly cli_tools=(
   wget
   xclip
   xdg-user-dirs
+  xdotool
 )
 
 readonly base_gui_apps=(
@@ -84,6 +85,7 @@ readonly development=(
   sshpass
   cmake
   dbeaver
+  deno
   docker
   docker-compose
   gdb
