@@ -139,6 +139,7 @@ readonly multimedia=(
   lib32-pipewire
   wireplumber
   pipewire-pulse
+  spotify-launcher
   vlc
 )
 
