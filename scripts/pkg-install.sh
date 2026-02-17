@@ -38,6 +38,7 @@ readonly customization=(
 )
 
 readonly cli_tools=(
+  btop
   cmatrix
   cpupower
   csvlens
@@ -48,6 +49,7 @@ readonly cli_tools=(
   jq
   lm_sensors
   lsb-release
+  ncdu
   nmap
   openssh
   pacman-contrib
