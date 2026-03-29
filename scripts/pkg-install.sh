@@ -50,6 +50,7 @@ readonly cli_tools=(
   lm_sensors
   lsb-release
   ncdu
+  nethogs
   nmap
   openssh
   pacman-contrib
