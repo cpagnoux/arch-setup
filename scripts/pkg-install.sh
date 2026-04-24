@@ -120,6 +120,8 @@ readonly development=(
 )
 
 readonly games=(
+  gamemode
+  lib32-gamemode
   lutris
   steam
 )
