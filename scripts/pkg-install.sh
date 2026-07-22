@@ -166,6 +166,7 @@ readonly system=(
   virtualbox
   virtualbox-host-modules-arch
   virtualbox-guest-iso
+  waydroid
   wireguard-tools
 )
 
